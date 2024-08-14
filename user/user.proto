@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package user;
+option go_package=".;user";
+
+
+service User {
+  //注册用户
+  rpc RegisterUser(RegisterUserReq) returns(UserInfoResp);
+  //根据手机号获取用户信息
+  rpc GetUserInfoByMobile(GetUserInfoByMobileReq) returns(UserInfoResp);
+  //更新用户信息
+  rpc UpdateUserInfo(UpdateUserInfoReq) returns(UpdateUserInfoResp);
+  //获取用户列表
+  rpc UserList(UserListReq) returns(UserListResp);
+  //判断密码是否正确
+  rpc CheckPassword(CheckPasswordReq) returns(CheckPasswordResp);
+}
+
+//注册用户
+message RegisterUserReq{
+  string nickName = 1;
+  string mobile = 2;
+  string password = 3;
+}
+
+//根据手机号获取用户信息
+message GetUserInfoByMobileReq {
+  string mobile = 1;
+}
+//用户信息响应体
+message UserInfoResp {
+  int32 id = 1;
+  string nickName = 2;
+  string mobile = 3;
+  string password = 4;
+  string gender = 5;
+  string birthday = 6;
+  int32 role = 7;
+}
+
+
+//修改用户信息
+message UpdateUserInfoReq{
+  int32 id=1;
+  string nickName = 2;
+  string gender = 3;
+  string birthday = 4;
+}
+message UpdateUserInfoResp{
+
+}
+
+//获取用户列表
+message UserListReq{
+  //当前页
+  uint32 pn=1;
+  //每页显示条数
+  uint32 pSize=2;
+  uint32 offset=3;
+
+}
+
+message UserListResp{
+  repeated UserInfoResp userList=1;
+  int64 total=2;
+}
+
+//检查密码是否正确请求体
+message CheckPasswordReq{
+  //明文密码
+  string password=1;
+  //加密后的密码
+  string encryptedPassword=2;
+}
+message CheckPasswordResp{
+  bool success=1;
+}
