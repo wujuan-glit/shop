@@ -22,6 +22,7 @@ const (
 	Order_CartItemList_FullMethodName   = "/Order/CartItemList"
 	Order_CreateCartItem_FullMethodName = "/Order/CreateCartItem"
 	Order_UpdateCartItem_FullMethodName = "/Order/UpdateCartItem"
+	Order_DeleteCart_FullMethodName     = "/Order/DeleteCart"
 	Order_CreateOrder_FullMethodName    = "/Order/CreateOrder"
 	Order_OrderList_FullMethodName      = "/Order/OrderList"
 	Order_OrderDetail_FullMethodName    = "/Order/OrderDetail"
@@ -38,6 +39,7 @@ type OrderClient interface {
 	CartItemList(ctx context.Context, in *UserInfo, opts ...grpc.CallOption) (*CartItemListResp, error)
 	CreateCartItem(ctx context.Context, in *CartItemReq, opts ...grpc.CallOption) (*ShopCartInfoResp, error)
 	UpdateCartItem(ctx context.Context, in *CartItemReq, opts ...grpc.CallOption) (*OrderEmpty, error)
+	DeleteCart(ctx context.Context, in *DeleteCartReq, opts ...grpc.CallOption) (*OrderEmpty, error)
 	// 订单
 	CreateOrder(ctx context.Context, in *OrderReq, opts ...grpc.CallOption) (*OrderInfoResp, error)
 	OrderList(ctx context.Context, in *OrderFilterReq, opts ...grpc.CallOption) (*OrderListResp, error)
@@ -77,6 +79,16 @@ func (c *orderClient) UpdateCartItem(ctx context.Context, in *CartItemReq, opts 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OrderEmpty)
 	err := c.cc.Invoke(ctx, Order_UpdateCartItem_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) DeleteCart(ctx context.Context, in *DeleteCartReq, opts ...grpc.CallOption) (*OrderEmpty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrderEmpty)
+	err := c.cc.Invoke(ctx, Order_DeleteCart_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -133,6 +145,7 @@ type OrderServer interface {
 	CartItemList(context.Context, *UserInfo) (*CartItemListResp, error)
 	CreateCartItem(context.Context, *CartItemReq) (*ShopCartInfoResp, error)
 	UpdateCartItem(context.Context, *CartItemReq) (*OrderEmpty, error)
+	DeleteCart(context.Context, *DeleteCartReq) (*OrderEmpty, error)
 	// 订单
 	CreateOrder(context.Context, *OrderReq) (*OrderInfoResp, error)
 	OrderList(context.Context, *OrderFilterReq) (*OrderListResp, error)
@@ -153,6 +166,9 @@ func (UnimplementedOrderServer) CreateCartItem(context.Context, *CartItemReq) (*
 }
 func (UnimplementedOrderServer) UpdateCartItem(context.Context, *CartItemReq) (*OrderEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCartItem not implemented")
+}
+func (UnimplementedOrderServer) DeleteCart(context.Context, *DeleteCartReq) (*OrderEmpty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCart not implemented")
 }
 func (UnimplementedOrderServer) CreateOrder(context.Context, *OrderReq) (*OrderInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
@@ -229,6 +245,24 @@ func _Order_UpdateCartItem_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).UpdateCartItem(ctx, req.(*CartItemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_DeleteCart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCartReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).DeleteCart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_DeleteCart_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).DeleteCart(ctx, req.(*DeleteCartReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -323,6 +357,10 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateCartItem",
 			Handler:    _Order_UpdateCartItem_Handler,
+		},
+		{
+			MethodName: "DeleteCart",
+			Handler:    _Order_DeleteCart_Handler,
 		},
 		{
 			MethodName: "CreateOrder",
