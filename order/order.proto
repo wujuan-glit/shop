@@ -21,7 +21,7 @@ service Order {
 message Empty{}
 //定义用户信息
 message UserInfo {
-  string ping = 1;
+  int32 id = 1;
 }
 
 message Response {
