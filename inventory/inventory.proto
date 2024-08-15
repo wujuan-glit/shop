@@ -6,18 +6,18 @@ option go_package=".;inventory";
 // 定义库存服务
 service Inventory {
 //设置库存方法
-  rpc SetInv(GoodsInvInfo) returns(Empty);
+  rpc SetInv(GoodsInvInfo) returns(InventoryEmpty);
   //获取库存信息
   rpc InvDetail(GoodsInvInfo) returns(GoodsInvInfo);
   //因为购物车有可能添加多件商品，所以下订单是扣减多件商品的库存
   //扣减库存
-  rpc Sell(SellInfo) returns (Empty);
+  rpc Sell(SellInfo) returns (InventoryEmpty);
 
   //归还库存
-  rpc Reback(SellInfo) returns (Empty);
+  rpc Reback(SellInfo) returns (InventoryEmpty);
 
 }
-message Empty{}
+message InventoryEmpty{}
 message GoodsInvInfo{
   int32 goodsId=1;
   int32 num=2;
