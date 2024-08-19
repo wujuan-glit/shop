@@ -68,6 +68,7 @@ message OrderReq{
   string name=4;
   string mobile=5;
   string post=6;//订单备注
+  string orderSn=7;//订单编号
 
 }
 
@@ -128,4 +129,5 @@ message UpdateOrderInfo {
   int32 payType = 2;
   int32 status = 3;
   string tradeNo = 4;
+  string orderSn=5;
 }
