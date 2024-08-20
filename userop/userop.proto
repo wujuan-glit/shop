@@ -34,7 +34,6 @@ service Address{
   rpc DeleteAddress(AddressRequest) returns(AddressEmpty); //删除地址
   rpc UpdateAddress(AddressRequest) returns(AddressEmpty); //修改地址
 }
-
 message AddressEmpty{}
 message AddressRequest{
   int32 id = 1;
@@ -67,7 +66,7 @@ service UserFav{
   rpc GetFavList(UserFavRequest) returns(UserFavListResponse); //过滤收藏信息
   rpc AddUserFav(UserFavRequest) returns(UserFavEmpty); //添加收藏
   rpc DeleteUserFav(UserFavRequest) returns(UserFavEmpty); //删除收藏
-  rpc GetUserFavDetail(UserFavRequest) returns(UserFavEmpty); //查看用户是否已经收藏某件商品
+  rpc GetUserFavDetail(UserFavRequest) returns(UserFavResponse); //查看用户是否已经收藏某件商品
 }
 
 message UserFavEmpty{}
@@ -76,8 +75,9 @@ message UserFavRequest{
   int32 goodsId = 2;
 }
 message UserFavResponse{
-  int32 userId = 1;
-  int32 goodsId = 2;
+  int32 id=1;
+  int32 userId = 2;
+  int32 goodsId = 3;
 }
 message UserFavListResponse {
   int32 total = 1;

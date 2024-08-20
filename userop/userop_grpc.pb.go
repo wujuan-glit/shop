@@ -376,7 +376,7 @@ type UserFavClient interface {
 	GetFavList(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavListResponse, error)
 	AddUserFav(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavEmpty, error)
 	DeleteUserFav(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavEmpty, error)
-	GetUserFavDetail(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavEmpty, error)
+	GetUserFavDetail(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavResponse, error)
 }
 
 type userFavClient struct {
@@ -417,9 +417,9 @@ func (c *userFavClient) DeleteUserFav(ctx context.Context, in *UserFavRequest, o
 	return out, nil
 }
 
-func (c *userFavClient) GetUserFavDetail(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavEmpty, error) {
+func (c *userFavClient) GetUserFavDetail(ctx context.Context, in *UserFavRequest, opts ...grpc.CallOption) (*UserFavResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserFavEmpty)
+	out := new(UserFavResponse)
 	err := c.cc.Invoke(ctx, UserFav_GetUserFavDetail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -436,7 +436,7 @@ type UserFavServer interface {
 	GetFavList(context.Context, *UserFavRequest) (*UserFavListResponse, error)
 	AddUserFav(context.Context, *UserFavRequest) (*UserFavEmpty, error)
 	DeleteUserFav(context.Context, *UserFavRequest) (*UserFavEmpty, error)
-	GetUserFavDetail(context.Context, *UserFavRequest) (*UserFavEmpty, error)
+	GetUserFavDetail(context.Context, *UserFavRequest) (*UserFavResponse, error)
 	mustEmbedUnimplementedUserFavServer()
 }
 
@@ -453,7 +453,7 @@ func (UnimplementedUserFavServer) AddUserFav(context.Context, *UserFavRequest) (
 func (UnimplementedUserFavServer) DeleteUserFav(context.Context, *UserFavRequest) (*UserFavEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserFav not implemented")
 }
-func (UnimplementedUserFavServer) GetUserFavDetail(context.Context, *UserFavRequest) (*UserFavEmpty, error) {
+func (UnimplementedUserFavServer) GetUserFavDetail(context.Context, *UserFavRequest) (*UserFavResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserFavDetail not implemented")
 }
 func (UnimplementedUserFavServer) mustEmbedUnimplementedUserFavServer() {}
