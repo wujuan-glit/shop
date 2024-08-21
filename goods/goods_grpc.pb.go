@@ -4,7 +4,7 @@
 // - protoc             v5.27.1
 // source: goods.proto
 
-package inventory
+package goods
 
 import (
 	context "context"

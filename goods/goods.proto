@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package goods;
-option go_package=".;inventory";
+option go_package=".;goods";
 
 // 定义商品服务
 service Goods {
