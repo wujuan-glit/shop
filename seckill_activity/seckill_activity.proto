@@ -4,11 +4,10 @@ syntax = "proto3";
 option go_package=".;seckill_activity";
 
 
-
 // 定义商品服务
 service SeckillActivity {
   //秒杀活动列表
-  //  rpc SeckillActivityList(SeckillActivityEmpty) returns();
+  rpc SeckillActivityList(SeckillActivityListReq) returns(SeckillActivityListResp);
   //秒杀活动详情
   //  rpc SeckillActivityDetail(SeckillActivityEmpty) returns();
   //秒杀活动创建
@@ -21,7 +20,7 @@ service SeckillActivity {
 
 
   //秒杀活动商品列表
-  //  rpc SeckillActivityGoodsList(SeckillActivityEmpty) returns();
+  rpc SeckillActivityGoodsList(SeckillActivityGoodsListReq) returns(SeckillActivityGoodsData);
   //秒杀活动商品详情
   //  rpc SeckillActivityGoodsDetail(SeckillActivityEmpty) returns();
   //秒杀活动商品创建
@@ -48,9 +47,47 @@ service SeckillActivity {
 
 message SeckillActivityEmpty{}
 
+message SeckillActivityListReq {
+  int32 status = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message SeckillActivityData {
+  int64 id = 1;
+  string name = 2;
+  int32 activity_start_time = 3;
+  int32 activity_end_time = 4;
+  int32 status = 5;
+}
+
+message SeckillActivityListResp {
+  int32 total  =1;
+  repeated SeckillActivityData data = 2;
+}
 
 message SeckillRecordCreateRequest {
   int64 seckill_activity_id = 1;
   int64 seckill_activity_goods_id = 2;
   int64 user_id = 3;
+}
+
+
+message SeckillActivityGoodsListReq {
+  int64 seckill_activity_id = 1;
+}
+
+
+message seckillGoods {
+  int64 id = 1;
+  string activity_id = 2;
+  int32 goods_id = 3;
+  int32 stock = 4;
+  int32 status = 5;
+}
+
+
+message SeckillActivityGoodsData {
+  int32 total  =1;
+  repeated seckillGoods data = 2;
 }
