@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+
+option go_package=".;seckill_activity";
+
+
+
+// 定义商品服务
+service SeckillActivity {
+  //秒杀活动列表
+  //  rpc SeckillActivityList(SeckillActivityEmpty) returns();
+  //秒杀活动详情
+  //  rpc SeckillActivityDetail(SeckillActivityEmpty) returns();
+  //秒杀活动创建
+  //  rpc SeckillActivityCreate(SeckillActivityEmpty) returns();
+  //秒杀活动修改
+  //  rpc SeckillActivityUpdate(SeckillActivityEmpty) returns();
+  //秒杀活动删除
+  //  rpc SeckillActivityDelete(SeckillActivityEmpty) returns();
+
+
+
+  //秒杀活动商品列表
+  //  rpc SeckillActivityGoodsList(SeckillActivityEmpty) returns();
+  //秒杀活动商品详情
+  //  rpc SeckillActivityGoodsDetail(SeckillActivityEmpty) returns();
+  //秒杀活动商品创建
+  //  rpc SeckillActivityGoodsCreate(SeckillActivityEmpty) returns();
+  //秒杀活动商品修改
+  //  rpc SeckillActivityGoodsUpdate(SeckillActivityEmpty) returns();
+  //秒杀活动商品删除
+  //  rpc SeckillActivityGoodsDelete(SeckillActivityEmpty) returns();
+
+
+  //秒杀购买记录表
+  //  rpc SeckillRecordList() returns();
+  //秒杀购买记录详情
+  //  rpc SeckillRecordDetail() returns();
+  //秒杀购买记录创建
+  rpc SeckillRecordCreate(SeckillRecordCreateRequest) returns(SeckillActivityEmpty);
+  //秒杀购买记录修改
+  //  rpc SeckillRecordUpdate() returns();
+  //秒杀购买记录删除
+  //  rpc SeckillRecordDelete() returns();
+
+}
+
+
+message SeckillActivityEmpty{}
+
+
+message SeckillRecordCreateRequest {
+  int64 seckill_activity_id = 1;
+  int64 seckill_activity_goods_id = 2;
+  int64 user_id = 3;
+}
